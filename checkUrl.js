@@ -41,11 +41,11 @@ async function checkUrls() {
           try {
             const res = await fetch(url, { method: 'GET' });
             if (!res.ok) {
-              results.push(`- URL ${i + 1}: ❌ Broken (${res.status}) → ${url}`);
+              results.push(`- URL ${i + 1}:  Broken (${res.status}) → ${url}`);
               hasIssues = true;
             }
           } catch (err) {
-            results.push(`- URL ${i + 1}: ⚠️ Error → ${url}`);
+            results.push(`- URL ${i + 1}:  Error → ${url}`);
             hasIssues = true;
           }
         }
@@ -65,6 +65,7 @@ async function checkUrls() {
   });
 
   fs.writeFileSync(filename, markdownReport, "utf8");
-  console.log(`✅ Markdown report generated: ${filename}`);
+  console.log(` Markdown report generated: ${filename}`);
 }
 checkUrls();
+
