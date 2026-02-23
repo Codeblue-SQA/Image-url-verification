@@ -13,12 +13,9 @@ const base = new Airtable({ apiKey: token }).base(baseId);
 async function checkUrls() {
   let markdownReport = `# Daily Lead Image Verification Report\n\n`;
 
-  // Get today's date for filename
   const today = new Date();
-  const dateStr = today.toISOString().split('T')[0]; // YYYY-MM-DD
+  const dateStr = today.toISOString().split('T')[0];
   const filename = `verification_report_${dateStr}.md`;
-
-  // Collect all pages
   await new Promise((resolve, reject) => {
     base(tableName).select({
     filterByFormula: `IS_SAME({Created_at_Auto_AT}, '2026-02-19', 'day')`
@@ -30,7 +27,7 @@ async function checkUrls() {
         const urlList = typeof imagesField === "string"
           ? imagesField
               .split(/[,;\n]+/)
-              .map(u => u.trim().replace(/^[-]+/, "")) // strip leading "-"
+              .map(u => u.trim().replace(/^[-]+/, "")) 
               .filter(Boolean)
           : Array.isArray(imagesField)
             ? imagesField.map(att => att.url)
@@ -67,9 +64,7 @@ async function checkUrls() {
     });
   });
 
-  // Write file once after all pages are processed
   fs.writeFileSync(filename, markdownReport, "utf8");
   console.log(`✅ Markdown report generated: ${filename}`);
 }
-
 checkUrls();
